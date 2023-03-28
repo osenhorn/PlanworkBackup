@@ -1,0 +1,10 @@
+                            IMPORTANTE
+
+
+
+            Para que este softfware funcione corretamente,
+            e necessario que o usuario que o executar
+            possua permissao de gravar/alterar o conteudo
+            do diretorio onde o software for instalado
+            bem como no diretorio escolhido para armazenar
+            os arquivos de backup gerados.
