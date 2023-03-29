@@ -36,15 +36,20 @@ class ArqConf:
     def ler_config(self):
         config = configparser.ConfigParser()
         config.read(self.arq_conf)
-        servidor = config['banco']['servidor']
-        usuario = config['banco']['usuario']
         senha = str(base64.b64decode(config['banco']['senha']))
         senha = senha[2:len(senha) - 1]
-        prefixo = config['banco']['prefixo']
         pasta = Path(config['geral']['caminhobackup'])
         cliente = config['geral']['cliente']
-        backup = Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today()}.7z')
-        backupapagar = Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today() - timedelta(days=2)}.7z')
-        log = Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today()}.log')
-        logapagar = Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today() - timedelta(days=2)}.log')
-        return servidor, usuario, senha, log, prefixo, pasta, cliente, backup, backupapagar, logapagar
+        dados = {
+            'servidor': config['banco']['servidor'],
+            'usuario': config['banco']['usuario'],
+            'senha': senha,
+            'prefixo': config['banco']['prefixo'],
+            'pasta': Path(config['geral']['caminhobackup']),
+            'cliente': config['geral']['cliente'],
+            'backup': Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today()}.7z'),
+            'backupapagar': Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today() - timedelta(days=2)}.7z'),
+            'log': Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today()}.log'),
+            'logapagar': Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today() - timedelta(days=2)}.log')
+        }
+        return dados

@@ -81,7 +81,7 @@ class GerenciaArquivos:
     def executa(self, lista):
         arqconf = ArqConf()
         config = arqconf.ler_config()
-        if self.compacta(lista, config[3], config[5], config[7]):
-            if self.apagar_arquivo(lista, config[3], config[5], config[8], config[9]):
+        if self.compacta(lista, config['log'], config['pasta'], config['backup']):
+            if self.apagar_arquivo(lista, config['log'], config['pasta'], config['backupapagar'], config['logapagar']):
                 return True
         return False

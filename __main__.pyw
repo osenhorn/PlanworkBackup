@@ -9,19 +9,14 @@ if __name__ == '__main__':
     if arquivo.existe():
         configarq = ArqConf()
         config = configarq.ler_config()
-        servidor = config[0]
-        usuario = config[1]
-        senha = config[2]
-        log = config[3]
-        prefixo = config[4]
-        pasta = config[5]
-        cliente = config[6]
-        banco = BancoDeDados(servidor, usuario, senha, log, prefixo, pasta)
+        banco = BancoDeDados(config['servidor'], config['usuario'], config['senha'], config['log'], config['prefixo'],
+                             config['pasta'])
         if len(sys.argv) > 1:
             if sys.argv[1] == 'auto':
                 banco.executa()
         else:
-            inicial = Janelas(servidor, usuario, senha, log, prefixo, pasta, cliente)
+            inicial = Janelas(config['servidor'], config['usuario'], config['senha'], config['log'], config['prefixo'],
+                              config['pasta'], config['cliente'])
             inicial.executa_telas()
     else:
         inicial = Janelas()

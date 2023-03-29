@@ -128,7 +128,8 @@ class Janelas:
                     elif valor['-EXECBKP-']:
                         existente.close()
                         config = self.arqconf.ler_config()
-                        self.banco = BancoDeDados(config[0], config[1], config[2], config[3], config[4], config[5])
+                        self.banco = BancoDeDados(config['servidor'], config['usuario'], config['senha'], config['log'],
+                                                  config['prefixo'], config['pasta'])
                         if self.banco.executa():
                             alerta = self.alerta()
                             alerta['-TEXTO-ALERTA-'].update(
