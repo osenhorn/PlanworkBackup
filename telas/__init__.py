@@ -5,8 +5,16 @@ from configuracoes import ArqConf
 
 
 class Janelas:
-    def __init__(self, servidor=None, usuario=None, senha=None, log=None, prefixo=None, pasta=None,
-                 cliente=None):
+    def __init__(
+            self,
+            servidor=None,
+            usuario=None,
+            senha=None,
+            log=None,
+            prefixo=None,
+            pasta=None,
+            cliente=None):
+
         self.servidor = servidor
         self.usuario = usuario
         self.senha = senha
@@ -23,27 +31,32 @@ class Janelas:
 
     def configuracao(self):
         Gui.theme(self.tema)
-        layout = [[Gui.Frame('Banco de dados',
-                             [[Gui.Text('Endereço do servidor (Ex: 127.0.0.1):')],
-                              [Gui.Input(key='servidor', size=(36, 1))],
-                              [Gui.Text('Usuário (Ex.: sa):')],
-                              [Gui.Input(key='usuario', size=(36, 1))],
-                              [Gui.Text('Senha:')],
-                              [Gui.Input(key='senha', password_char='*', size=(36, 1))],
-                              [Gui.Text('Prefixo do banco de dados (Ex.: sfb_):')],
-                              [Gui.Input(key='prefixo', size=(36, 1))]],
-                             size=(275, 250))],
-                  [Gui.Frame('Complementares',
-                             [[Gui.Text('Nome do Cliente (Ex.: ACME):')],
-                              [Gui.Input(key='cliente', size=(36, 1))],
-                              [Gui.Text('Pasta onde o backup será salvo:')],
-                              [Gui.FolderBrowse(target='pasta', button_text='Procurar'),
-                               Gui.Input(key='pasta', size=(26, 1))],
-                              [Gui.Text('', size=(16, 1))]],
-                             size=(275, 150))],
-                  [Gui.Button('Salvar', key='-SALVAR-CONFIG-', size=(8, 1)),
-                   Gui.Push(),
-                   Gui.Button('Fechar', key='-FECHAR-CONFIG-', size=(8, 1))]]
+        layout = [[
+            Gui.Frame(
+                'Banco de dados', [
+                    [Gui.Text('Endereço do servidor (Ex: 127.0.0.1):')],
+                    [Gui.Input(key='servidor', size=(36, 1))],
+                    [Gui.Text('Usuário (Ex.: sa):')],
+                    [Gui.Input(key='usuario', size=(36, 1))],
+                    [Gui.Text('Senha:')],
+                    [Gui.Input(key='senha', password_char='*', size=(36, 1))],
+                    [Gui.Text('Prefixo do banco de dados (Ex.: sfb_):')],
+                    [Gui.Input(key='prefixo', size=(36, 1))]],
+                size=(275, 250))],
+            [
+                Gui.Frame(
+                    'Complementares',
+                    [[Gui.Text('Nome do Cliente (Ex.: ACME):')],
+                     [Gui.Input(key='cliente', size=(36, 1))],
+                     [Gui.Text('Pasta onde o backup será salvo:')],
+                     [Gui.FolderBrowse(target='pasta', button_text='Procurar'),
+                      Gui.Input(key='pasta', size=(26, 1))],
+                     [Gui.Text('', size=(16, 1))]],
+                    size=(275, 150))],
+            [
+                Gui.Button('Salvar', key='-SALVAR-CONFIG-', size=(8, 1)),
+                Gui.Push(),
+                Gui.Button('Fechar', key='-FECHAR-CONFIG-', size=(8, 1))]]
 
         return Gui.Window(
             'Planwork',
@@ -143,12 +156,7 @@ class Janelas:
                 if evento == Gui.WINDOW_CLOSED or evento == '-FECHAR-CONFIG-':
                     sair = self.sair()
                 elif evento == '-SALVAR-CONFIG-':
-                    campos = []
-                    campos.append(valor['cliente'])
-                    campos.append(valor['servidor'])
-                    campos.append(valor['usuario'])
-                    campos.append(valor['senha'])
-                    campos.append(valor['prefixo'])
+                    campos = [valor['cliente'], valor['servidor'], valor['usuario'], valor['senha'], valor['prefixo']]
                     for campo in campos:
                         if campo == '':
                             print("teste")

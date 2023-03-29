@@ -11,8 +11,7 @@ class BancoDeDados:
         self.prefixo = prefixo
         self.pasta = pasta
         self.driver = 'DRIVER={SQL Server};'
-        self.dados_banco = '{0}SERVER={1};UID={2};PWD={3};'.format(self.driver, servidor,
-                                                                   usuario, senha)
+        self.dados_banco = '{0}SERVER={1};UID={2};PWD={3};'.format(self.driver, servidor, usuario, senha)
         self.bancos = []
         self.conexao = None
         self.cursor = None

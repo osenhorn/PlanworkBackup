@@ -10,7 +10,8 @@ class GerenciaArquivos:
         self.apagar = None
         self.log = None
 
-    def compacta(self, lista_arquivos, logarq, pasta, backup):
+    @staticmethod
+    def compacta(lista_arquivos, logarq, pasta, backup):
         primeiro = True
         try:
             for arq in lista_arquivos:
@@ -25,7 +26,8 @@ class GerenciaArquivos:
                 log.write(f'{datetime.now()} - O arquivo {backup} foi criado com sucesso.\n\n')
             return True
         except Exception as erro:
-            dados_erro = f'Ocorreu uma falha na compactação dos arquivos:\n{erro}\nOs arquivos .bak não foram apagados.\n\n'
+            dados_erro = f'Ocorreu uma falha na compactação dos arquivos:\n{erro}'\
+                    '\nOs arquivos .bak não foram apagados.\n\n'
             with open(logarq, 'a') as log:
                 log.write(f'{datetime.now()} - {dados_erro}')
             return False
@@ -81,7 +83,18 @@ class GerenciaArquivos:
     def executa(self, lista):
         arqconf = ArqConf()
         config = arqconf.ler_config()
-        if self.compacta(lista, config['log'], config['pasta'], config['backup']):
-            if self.apagar_arquivo(lista, config['log'], config['pasta'], config['backupapagar'], config['logapagar']):
+        if self.compacta(
+                lista,
+                config['log'],
+                config['pasta'],
+                config['backup']):
+
+            if self.apagar_arquivo(
+                    lista,
+                    config['log'],
+                    config['pasta'],
+                    config['backupapagar'],
+                    config['logapagar']):
+
                 return True
         return False

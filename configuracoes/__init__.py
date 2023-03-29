@@ -20,10 +20,11 @@ class ArqConf:
             'cliente': cliente
         }
 
-        config['banco'] = dict(servidor=servidor,
-                               usuario=usuario,
-                               senha=self.senha,
-                               prefixo=prefixo)
+        config['banco'] = dict(
+            servidor=servidor,
+            usuario=usuario,
+            senha=self.senha,
+            prefixo=prefixo)
         try:
             with open(self.arq_conf, 'w') as configfile:
                 config.write(configfile)
