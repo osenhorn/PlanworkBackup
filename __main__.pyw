@@ -28,7 +28,8 @@ if __name__ == '__main__':
                 config['log'],
                 config['prefixo'],
                 config['pasta'],
-                config['cliente'])
+                config['cliente'],
+                config['dias'])
 
             inicial.executa_telas()
     else:

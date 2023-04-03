@@ -1,35 +1,33 @@
 from configuracoes import ArqConf
 from datetime import datetime
 import py7zr
+import shutil
 import os
 
 
 class GerenciaArquivos:
     def __init__(self):
         self.arq_conf = str(os.getcwd() + '\\config.ini')
-        self.apagar = None
         self.log = None
+        self.pasta = None
+        self.backup = None
+        self.bkpapagar = None
+        self.logapagar = None
+        self.dias = None
 
-    @staticmethod
-    def compacta(lista_arquivos, logarq, pasta, backup):
-        primeiro = True
+    def compacta(self):
         try:
-            for arq in lista_arquivos:
-                if primeiro:
-                    with py7zr.SevenZipFile(backup, 'w') as z:
-                        z.writeall(f'{pasta}\\{arq}.bak')
-                    primeiro = False
-                else:
-                    with py7zr.SevenZipFile(backup, 'a') as z:
-                        z.writeall(f'{pasta}\\{arq}.bak')
-            with open(logarq, 'a') as log:
-                log.write(f'{datetime.now()} - O arquivo {backup} foi criado com sucesso.\n\n')
+            tmpdir = f'{self.pasta}\\tmp'
+            lista = os.listdir(tmpdir)
+            with py7zr.SevenZipFile(f'{self.pasta}\\{self.backup}', 'w') as z:
+                for arq in lista:
+                    os.chdir(tmpdir)
+                    z.writeall(arq)
             return True
         except Exception as erro:
             dados_erro = f'Ocorreu uma falha na compactação dos arquivos:\n{erro}'\
                     '\nOs arquivos .bak não foram apagados.\n\n'
-            with open(logarq, 'a') as log:
-                log.write(f'{datetime.now()} - {dados_erro}')
+            self.grava_log(dados_erro)
             return False
 
     def existe(self, arquivo=None):
@@ -44,57 +42,48 @@ class GerenciaArquivos:
             else:
                 return False
 
-    def apagar_arquivo(self, arquivos, logarq, pasta, backupapagar, logapagar):
-        if self.existe(backupapagar):
-            try:
-                os.remove(backupapagar)
-                with open(logarq, 'a') as log:
-                    log.write(f'{datetime.now()} - O arquivo {backupapagar}.bak foi excluído.\n\n')
-            except Exception as erro_apagar:
-                dados_erro = f'Erro ao apagar o arquivo {os.remove(backupapagar)}.bak\n{erro_apagar}'
-                with open(logarq, 'a') as log:
-                    log.write(f'{datetime.now()} - {dados_erro}')
-
-        if self.existe(logapagar):
-            try:
-                os.remove(logapagar)
-                with open(logarq, 'a') as log:
-                    log.write(f'{datetime.now()} - O arquivo {logapagar}.bak foi excluído.\n\n')
-            except Exception as erro_apagar:
-                dados_erro = f'Erro ao apagar o arquivo {logapagar}.bak\n{erro_apagar}'
-                with open(logarq, 'a') as log:
-                    log.write(f'{datetime.now()} - {dados_erro}')
+    def apagar_arquivo(self):
+        os.chdir(self.pasta)
+        self.grava_log(f'O arquivo {self.backup} foi criado com sucesso.\n\n')
+        try:
+            if self.existe(f'{self.pasta}\\{self.bkpapagar}'):
+                os.remove(f'{self.pasta}\\{self.bkpapagar}')
+                self.grava_log(f'O arquivo {self.bkpapagar}.bak foi excluído.\n\n')
+        except Exception as erro_apagar:
+            self.grava_log(f'Erro ao apagar o arquivo {self.bkpapagar}\n{erro_apagar}')
 
         try:
-            for apagar in arquivos:
-                self.apagar = apagar
-                os.remove(f'{pasta}\\{apagar}.bak')
-                with open(logarq, 'a') as log:
-                    log.write(f'{datetime.now()} - O arquivo {self.apagar}.bak foi excluído.\n\n')
-            with open(logarq, 'a') as log:
-                log.write(f'{datetime.now()} - Processo de backup concluído.\n\n')
+            if self.existe(self.logapagar):
+                os.remove(self.logapagar)
+                self.grava_log(f'O arquivo {self.logapagar}.bak foi excluído.\n\n')
+        except Exception as erro_apagar:
+            self.grava_log(f'Erro ao apagar o arquivo {self.logapagar}\n{erro_apagar}')
+
+        try:
+            shutil.rmtree(f'{self.pasta}/tmp')
+            self.grava_log('Diretório temporário foi excluído.\n\n')
+            self.grava_log('Arquivos ".bak" excluídos.\n\n')
+            self.grava_log('Processo de backup concluído com sucesso.\n\n')
             return True
         except Exception as erro_apagar:
-            dados_erro = f'Erro ao apagar o arquivo {self.apagar}.bak\n{erro_apagar}'
-            with open(logarq, 'a') as log:
-                log.write(f'{datetime.now()} - {dados_erro}')
+            self.grava_log(f'Erro ao apagar algum dos arquivos.\n{erro_apagar}')
             return False
 
-    def executa(self, lista):
+    def grava_log(self, mensagem):
+        with open(self.log, 'a') as log:
+            log.write(f'{datetime.now()} - {mensagem}')
+
+    def executa(self):
         arqconf = ArqConf()
         config = arqconf.ler_config()
-        if self.compacta(
-                lista,
-                config['log'],
-                config['pasta'],
-                config['backup']):
+        self.log = config['log']
+        self.pasta = config['pasta']
+        self.backup = config['backup']
+        self.bkpapagar = config['backupapagar']
+        self.logapagar = config['logapagar']
+        self.dias = int(config['dias'])
 
-            if self.apagar_arquivo(
-                    lista,
-                    config['log'],
-                    config['pasta'],
-                    config['backupapagar'],
-                    config['logapagar']):
-
+        if self.compacta():
+            if self.apagar_arquivo():
                 return True
         return False

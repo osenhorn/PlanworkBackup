@@ -8,9 +8,10 @@ import os
 class ArqConf:
     def __init__(self):
         self.arq_conf = str(os.getcwd() + '\\config.ini')
-        self.senha = ''
+        self.senha = None
+        self.dias = None
 
-    def grava_config(self, cliente, servidor, usuario, senha, prefixo, pasta):
+    def grava_config(self, cliente, servidor, usuario, senha, prefixo, pasta, dias):
         self.senha = senha.encode('utf-8')
         self.senha = str(base64.b64encode(self.senha))
         self.senha = self.senha[2:len(self.senha) - 1]
@@ -20,11 +21,12 @@ class ArqConf:
             'cliente': cliente
         }
 
-        config['banco'] = dict(
-            servidor=servidor,
-            usuario=usuario,
-            senha=self.senha,
-            prefixo=prefixo)
+        config['banco'] = {
+            'servidor': servidor,
+            'usuario': usuario,
+            'senha': self.senha,
+            'prefixo' :prefixo,
+            'dias': str(dias)}
         try:
             with open(self.arq_conf, 'w') as configfile:
                 config.write(configfile)
@@ -39,8 +41,8 @@ class ArqConf:
         config.read(self.arq_conf)
         senha = str(base64.b64decode(config['banco']['senha']))
         senha = senha[2:len(senha) - 1]
-        pasta = Path(config['geral']['caminhobackup'])
         cliente = config['geral']['cliente']
+        self.dias = int(config['banco']['dias'])
         dados = {
             'servidor': config['banco']['servidor'],
             'usuario': config['banco']['usuario'],
@@ -48,9 +50,10 @@ class ArqConf:
             'prefixo': config['banco']['prefixo'],
             'pasta': Path(config['geral']['caminhobackup']),
             'cliente': config['geral']['cliente'],
-            'backup': Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today()}.7z'),
-            'backupapagar': Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today() - timedelta(days=2)}.7z'),
-            'log': Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today()}.log'),
-            'logapagar': Path(f'{pasta}\\{cliente}_BancoDeDados_{date.today() - timedelta(days=2)}.log')
+            'backup': Path(f'{cliente}_BancoDeDados_{date.today()}.7z'),
+            'backupapagar': Path(f'{cliente}_BancoDeDados_{date.today() - timedelta(days=self.dias)}.7z'),
+            'log': Path(f'{cliente}_BancoDeDados_{date.today()}.log'),
+            'logapagar': Path(f'{cliente}_BancoDeDados_{date.today() - timedelta(days=self.dias)}.log'),
+            'dias': self.dias
         }
         return dados

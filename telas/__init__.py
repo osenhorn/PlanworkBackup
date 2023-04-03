@@ -13,7 +13,8 @@ class Janelas:
             log=None,
             prefixo=None,
             pasta=None,
-            cliente=None):
+            cliente=None,
+            dias=None):
 
         self.servidor = servidor
         self.usuario = usuario
@@ -22,6 +23,8 @@ class Janelas:
         self.pasta = pasta
         self.cliente = cliente
         self.log = log
+        self.dias = dias
+        self.numerico = None
         self.tema = 'Default1'
         self.arqconf = ArqConf()
         self.arquivos = GerenciaArquivos()
@@ -48,11 +51,13 @@ class Janelas:
                     'Complementares',
                     [[Gui.Text('Nome do Cliente (Ex.: ACME):')],
                      [Gui.Input(key='cliente', size=(36, 1))],
+                     [Gui.Text('Quantos backups manter (Nº de dias):')],
+                     [Gui.Input(key='dias', size=(36, 1))],
                      [Gui.Text('Pasta onde o backup será salvo:')],
                      [Gui.FolderBrowse(target='pasta', button_text='Procurar'),
                       Gui.Input(key='pasta', size=(26, 1))],
                      [Gui.Text('', size=(16, 1))]],
-                    size=(275, 150))],
+                    size=(275, 200))],
             [
                 Gui.Button('Salvar', key='-SALVAR-CONFIG-', size=(8, 1)),
                 Gui.Push(),
@@ -95,23 +100,8 @@ class Janelas:
             icon=r'./icone.ico',
             finalize=True)
 
-    def sair(self):
-        Gui.theme(self.tema)
-        layout = [
-            [Gui.Text('Tem certeza que deseja encerrar o programa?\n')],
-            [Gui.Button('Sim, fechar', key='-ENCERRA-APP', size=(8, 1)),
-             Gui.Push(),
-             Gui.Button('Retornar', key='-ANTERIOR-', size=(8, 1))]
-        ]
-
-        return Gui.Window(
-            'Planwork',
-            layout=layout,
-            icon=r'./icone.ico',
-            finalize=True)
-
     def executa_telas(self):
-        configurar = existente = sair = alerta = None
+        configurar = existente =  alerta = None
         if self.arquivos.existe():
             existente = self.existente()
             existente.set_icon(r'./icone.ico')
@@ -137,12 +127,17 @@ class Janelas:
                         configurar['prefixo'].update(self.prefixo)
                         configurar['cliente'].update(self.cliente)
                         configurar['pasta'].update(self.pasta)
+                        configurar['dias'].update(self.dias)
                         existente.close()
                     elif valor['-EXECBKP-']:
                         existente.close()
                         config = self.arqconf.ler_config()
-                        self.banco = BancoDeDados(config['servidor'], config['usuario'], config['senha'], config['log'],
-                                                  config['prefixo'], config['pasta'])
+                        self.banco = BancoDeDados(config['servidor'],
+                                                  config['usuario'],
+                                                  config['senha'],
+                                                  config['log'],
+                                                  config['prefixo'],
+                                                  config['pasta'])
                         if self.banco.executa():
                             alerta = self.alerta()
                             alerta['-TEXTO-ALERTA-'].update(
@@ -154,12 +149,17 @@ class Janelas:
 
             if janela == configurar:
                 if evento == Gui.WINDOW_CLOSED or evento == '-FECHAR-CONFIG-':
-                    sair = self.sair()
+                    break
                 elif evento == '-SALVAR-CONFIG-':
-                    campos = [valor['cliente'], valor['servidor'], valor['usuario'], valor['senha'], valor['prefixo']]
+                    campos = [valor['cliente'],
+                              valor['servidor'],
+                              valor['usuario'],
+                              valor['senha'],
+                              valor['prefixo'],
+                              valor['pasta'],
+                              valor['dias']]
                     for campo in campos:
                         if campo == '':
-                            print("teste")
                             self.preenchido = False
                             break
 
@@ -173,35 +173,42 @@ class Janelas:
                         self.prefixo = valor['prefixo']
                         self.pasta = valor['pasta']
                         self.cliente = valor['cliente']
-                        gravou = self.arqconf.grava_config(
-                            valor['cliente'],
-                            valor['servidor'],
-                            valor['usuario'],
-                            valor['senha'],
-                            valor['prefixo'],
-                            valor['pasta']
-                        )
-                        if gravou[0]:
-                            configurar.close()
-                            existente = self.existente()
-                            existente['TEXTO-EXISTENTE'].update('CONFIGURAÇÃO CONCLUÍDA.\n\n')
+                        try:
+                            self.dias = int(valor['dias'])
+                            self.numerico = True
+                        except:
+                            self.numerico = False
+
+                        if self.numerico:
+                            gravou = self.arqconf.grava_config(
+                                valor['cliente'],
+                                valor['servidor'],
+                                valor['usuario'],
+                                valor['senha'],
+                                valor['prefixo'],
+                                valor['pasta'],
+                                self.dias
+                            )
+                            if gravou[0]:
+                                configurar.close()
+                                existente = self.existente()
+                                existente['TEXTO-EXISTENTE'].update('CONFIGURAÇÃO CONCLUÍDA.\n\n')
+                            else:
+                                alerta = self.alerta()
+                                alerta['-TEXTO-ALERTA-'].update(gravou[1])
+                                configurar.close()
                         else:
                             alerta = self.alerta()
-                            alerta['-TEXTO-ALERTA-'].update(gravou[1])
-                            configurar.close()
+                            alerta['-TEXTO-ALERTA-'].update(
+                                'O campo\n\n "Quantos backups manter (Nº de dias):"\n\n'
+                                'deve receber um valor numérico e inteiro!')
 
             if janela == alerta:
                 if evento == Gui.WINDOW_CLOSED:
                     break
                 if evento == '-FECHA-ALERTA-':
-                    if not self.preenchido:
+                    if not self.preenchido or not self.numerico:
                         alerta.close()
                         self.preenchido = True
                     else:
                         break
-
-            if janela == sair:
-                if evento == Gui.WINDOW_CLOSED or evento == '-ENCERRA-APP':
-                    break
-                elif evento == '-ANTERIOR-':
-                    sair.close()
