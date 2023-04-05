@@ -88,7 +88,7 @@ Neste campo deve ser preenchido o usuário que será usado para acessar o banco 
 Neste campo deve ser preenchida a senha do usuário informado no campo anterior.
 
 4 – Prefixo do banco de dados<br>
-Todos os bancos de dados usados pelo Evolution têm seus nomes iniciados por um conjunto de letras e um underscore (_). Neste campo, deve ser preenchido esse conjunto de caracteres. Ex.: sfb_
+Todos os bancos de dados usados pelo Evolution têm seus nomes iniciados por um conjunto de letras e um underscore ( _ ). Neste campo, deve ser preenchido esse conjunto de caracteres. Ex.: sfb_
 
 5 – Nome do cliente<br>
 Neste campo deve ser preenchido o nome da empresa, cliente Planwork, que usará o software de backup.
@@ -134,11 +134,14 @@ Se tudo deu certo ao salvar o arquivo de configuração, a tela abaixo será exi
 
 Nessa tela, há três opções:
 
-1 – Executar um backup – Selecionando essa opção o software fará um backup do banco de dados, salvando os arquivos resultantes no diretório selecionado nas configurações;
+1 – Executar um backup<br>
+Selecionando essa opção o software fará um backup do banco de dados, salvando os arquivos resultantes no diretório selecionado nas configurações;
 
-2 – Refazer as configurações – Selecionando essa opção, a janela de configuração será novamente aberta, exibindo os dados preenchidos anteriormente para que o usuário possa revisá-las;
+2 – Refazer as configurações<br>
+Selecionando essa opção, a janela de configuração será novamente aberta, exibindo os dados preenchidos anteriormente para que o usuário possa revisá-las;
 
-3 – Apenas encerrar o programa – Selecionando essa opção, o software será encerrado;
+3 – Apenas encerrar o programa<br>
+Selecionando essa opção, o software será encerrado;
 
 Clicando em “OK”, a opção selecionada é executada.
 Caso a opção escolhida tenha sido “Executar um backup”, o software iniciará o processo de backup, exibindo a mensagem abaixo quando concluir. Clicando em “OK” o software é encerrado.
@@ -188,7 +191,7 @@ As opções são as mesmas exibidas e explicadas na sessão “Primeiro Backup�
 3.1 – Coleta uma lista de todos os bancos de dados cujo nome se inicia com o prefixo preenchido na tela de configurações<br>
 3.2 – Realiza o backup de cada um dos arquivos listados, criando um arquivo com a extensão “.bak” para cada um deles em um diretório temporário dentro daquele que foi escolhido na tela de configurações<br>
 3.4 – Após concluir o backup de cada um dos bancos, inicia o processo de compactação. O formato escolhido foi o 7zip, formato gratuito e de código aberto, usando o método de compactação LZMA.<br>
-3.5 – Após verificar que a compactação ocorreu corretamente, exclui o diretório temporário e seu conteúdo (arquivos ‘.bak”), reduzindo o consumo de espaço em disco.<br>
+3.5 – Após verificar que a compactação ocorreu corretamente, exclui o diretório temporário e seu conteúdo (arquivos ".bak”), reduzindo o consumo de espaço em disco.<br>
 3.6 – Verifica se existem backups mais antigos que o número de dias especificado na tela de configurações. Caso exista, os exclui<br>
 
 <br><h2>Automação</h2><br>
