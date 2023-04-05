@@ -120,6 +120,12 @@ Ao clicar em “Salvar” deixando algum campo em branco, a mensagem abaixo ser�
  
 Ao clicar em “OK” a mensagem será fechada e você poderá concluir as configurações.
 
+O campo "Quantos backups manter (Nº de dias)" só aceita valores numéricos inteiros. Caso algo diferente disso seja inserido neste campo, a mensagem abaixo será exibida.
+
+![image](https://user-images.githubusercontent.com/49456349/230103300-e628f340-2965-4f95-a70b-236da3b632fb.png)
+
+Ao clicar em "OK", a janela de alerta será fechada e você poderá corrigir o valor do campo.
+
 <br><h3>Possível erro</h3><br>
 Conforme informado anteriormente no processo de instalação, o arquivo de configuração gerado pelas configurações acima é salvo no mesmo diretório onde o software foi instalado. Caso o usuário que executou o software não possua permissão para gravar arquivos nesse diretório, a mensagem abaixo será exibida. Ao clicar em “OK” o software será encerrado.
 
