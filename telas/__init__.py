@@ -55,7 +55,7 @@ class Janelas:
                      [Gui.Input(key='dias', size=(36, 1))],
                      [Gui.Text('Pasta onde o backup será salvo:')],
                      [Gui.FolderBrowse(target='pasta', button_text='Procurar'),
-                      Gui.Input(key='pasta', size=(26, 1))],
+                      Gui.Input(key='pasta', disabled=True, size=(26, 1))],
                      [Gui.Text('', size=(16, 1))]],
                     size=(275, 200))],
             [
