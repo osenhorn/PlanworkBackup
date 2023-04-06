@@ -1,5 +1,4 @@
 from datetime import date, timedelta
-from pathlib import Path
 import configparser
 import base64
 import os
@@ -7,7 +6,7 @@ import os
 
 class ArqConf:
     def __init__(self):
-        self.arq_conf = str(os.getcwd() + '\\config.ini')
+        self.arq_conf = f'{str(os.getcwd())}\\config.ini'
         self.senha = None
         self.dias = None
 
@@ -17,7 +16,7 @@ class ArqConf:
         self.senha = self.senha[2:len(self.senha) - 1]
         config = configparser.ConfigParser()
         config['geral'] = {
-            'caminhobackup': Path(pasta),
+            'caminhobackup': rf'{pasta}',
             'cliente': cliente
         }
 
@@ -25,7 +24,7 @@ class ArqConf:
             'servidor': servidor,
             'usuario': usuario,
             'senha': self.senha,
-            'prefixo' :prefixo,
+            'prefixo': prefixo,
             'dias': str(dias)}
         try:
             with open(self.arq_conf, 'w') as configfile:
@@ -48,12 +47,12 @@ class ArqConf:
             'usuario': config['banco']['usuario'],
             'senha': senha,
             'prefixo': config['banco']['prefixo'],
-            'pasta': Path(config['geral']['caminhobackup']),
+            'pasta': config['geral']['caminhobackup'],
             'cliente': config['geral']['cliente'],
-            'backup': Path(f'{cliente}_BancoDeDados_{date.today()}.7z'),
-            'backupapagar': Path(f'{cliente}_BancoDeDados_{date.today() - timedelta(days=self.dias)}.7z'),
-            'log': Path(f'{cliente}_BancoDeDados_{date.today()}.log'),
-            'logapagar': Path(f'{cliente}_BancoDeDados_{date.today() - timedelta(days=self.dias)}.log'),
+            'backup': f'{cliente}_BancoDeDados_{date.today()}.7z',
+            'backupapagar': f'{cliente}_BancoDeDados_{date.today() - timedelta(days=self.dias)}.7z',
+            'log': f'{cliente}_BancoDeDados_{date.today()}.log',
+            'logapagar': f'{cliente}_BancoDeDados_{date.today() - timedelta(days=self.dias)}.log',
             'dias': self.dias
         }
         return dados

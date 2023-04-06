@@ -11,6 +11,9 @@ ou pessoa que o fizer isenta a Planwork de todas e quaisquer
 responsabilidades, assumindo-as para si, bem como todas as consequências
 resultantes.
 
+O código fonte deste software e seu manual de uso estão disponíveis no GitHub:
+https://github.com/osenhorn/PlanworkBackup
+
 Este software é licenciado sob a GNU GPL (GNU General Public License)
 versão 3, que está integralmente exibida abaixo:
 

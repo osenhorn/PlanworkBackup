@@ -7,7 +7,7 @@ import os
 
 class GerenciaArquivos:
     def __init__(self):
-        self.arq_conf = str(os.getcwd() + '\\config.ini')
+        self.arq_conf = rf'{str(os.getcwd())}\config.ini'
         self.log = None
         self.pasta = None
         self.backup = None
