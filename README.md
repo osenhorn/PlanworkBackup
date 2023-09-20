@@ -152,6 +152,8 @@ Selecionando essa opção, o software será encerrado;
 Clicando em “OK”, a opção selecionada é executada.
 Caso a opção escolhida tenha sido “Executar um backup”, o software iniciará o processo de backup, exibindo a mensagem abaixo quando concluir. Clicando em “OK” o software é encerrado.
 
+IMPORTANTE: Para economizar recursos de memória e processamento durante a execução do backup, o processo de backup não exibe dados na tela, tal como barra de progresso ou quaisquer outras informações, apenas exibindo a mensagem abaixo quando o processo estiver concluído.
+
 ![image](https://user-images.githubusercontent.com/49456349/229910617-61895dc0-ac84-447b-9479-1e0a81332354.png)
  
 Caso algum erro ocorra durante o processo, o software emitirá um alerta e os dados do erro serão armazenados em um arquivo de log, salvo no mesmo diretório onde o backup é salvo.
