@@ -1,5 +1,5 @@
 # PlanworkBackup
-Software desenvolvido em Python 3.11, especialmente criado para o backup dos bancos de dados utilizados pelo software ERP Evolution.
+Software desenvolvido em Python 3.10, especialmente criado para o backup dos bancos de dados utilizados pelo software ERP Evolution.
 
 Possui interface simples e direta, log completo, manual detalhado e pode ser parametrizado via linha de comando, funcionalidade pensada na automação pelo Agendador de Tarefas do Windows.
 
