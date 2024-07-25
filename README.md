@@ -3,8 +3,8 @@ Software desenvolvido em Python 3.10, especialmente criado para o backup dos ban
 
 Possui interface simples e direta, log completo, manual detalhado e pode ser parametrizado via linha de comando, funcionalidade pensada na automação pelo Agendador de Tarefas do Windows.
 
-Para próximas versões, pretendo adicionar a opção de integrá-lo ao OneDrive e/ou Google Drive para a sincronização do backup em nuvem.
+Este software é o resultado do trabalho de alguém que saiu do zero em Python, fez muitos testes, errou muito e conseguiu lançar uma versão que funciona muito bem ao que se propõe. Ainda assim, foi desenvolvido por um iniciante em programação, e por essa razão aceito de bom grado colaborações, sugestões e críticas construtuvas ao projeto.
 
-Este software é o resultado do trabalho de alguém que saiu do zero em Python, fez muitos testes, errou muito e conseguiu lançar uma versão que funciona muito bem ao que se propõe. Ainda assim, foi desenvolvido por um iniciante em programação, e por essa razão aceito de bom grado colaborações e sugestões ao projeto.
+Atualmente estou trabalhando em uma nova versão que usará KivyMD para interface gráfica, SQLite para o armazenamento das configurações, além de integração com o Google Drive e One Drive. Ainda não decidi se manterei a execução automatizada pelo agendador de tarefas do Windows ou se criarei um serviço no Windows para que ele permaneça em execução em segundo plano.
 
 O manual de instalação e instruções de uso está disponível em https://github.com/osenhorn/PlanworkBackup/releases/download/PlanworkBackup2.0/Manual.Planwork.Backup.2.0.pdf
